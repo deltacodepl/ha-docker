@@ -1,0 +1,83 @@
+name: docker-homeassistant
+
+services:
+    # *****************************************************************************
+    # homeassistant
+    #   Home Assistant is an open-source home automation platform that enables 
+    #   users to control and manage smart devices from various brands in a centralized, 
+    #   local system. It offers extensive customization, allowing integration with 
+    #   devices like lights, thermostats, and sensors through protocols such as 
+    #   Zigbee, Z-Wave, and Wi-Fi. Designed for privacy and flexibility, it runs on 
+    #   local hardware, giving users full control without relying on cloud services.
+    #
+    # *****************************************************************************
+    homeassistant:
+        container_name: homeassistant
+        image: "ghcr.io/home-assistant/home-assistant:stable"
+        environment:
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-1000}
+            - PGID=${GUID:-1000}
+        volumes:
+          - homeassistant-config:/config
+          - /etc/localtime:/etc/localtime:ro
+          - /run/dbus:/run/dbus:ro
+        restart: unless-stopped
+        privileged: true
+        network_mode: host
+
+
+    # *****************************************************************************
+    # code-server
+    #   code-server is a self-hosted VS Code instance that runs in the browser.
+    #   This setup mounts the Home Assistant config volume as a workspace folder,
+    #   allowing you to edit HA configurations directly via the code-server interface.
+    #   Access it at http://localhost:8080 (or your host IP:8080).
+    #   Default password is 'password' - change it via the PASSWORD environment variable.
+    #
+    # *****************************************************************************
+    vscode-server:
+        container_name: vscode-server
+        image: codercom/code-server:latest
+        environment:
+            - PASSWORD=password  # Change this to a secure password
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-1000}
+            - PGID=${PGID:-1000}
+        volumes:
+          - homeassistant-config:/config/workspace
+          - code-server-config:/config
+        ports:
+          - "8080:8080"
+        restart: unless-stopped
+        command: /config/workspace
+
+    # *****************************************************************************
+    # esphome
+    #   ESPHome is a tool for creating custom firmware for ESP8266/ESP32 devices.
+    #   It integrates with Home Assistant for device control. The dashboard runs on port 6052.
+    #   Access it at http://<your-server-ip>:6052. For security, consider adding basic auth
+    #   via USERNAME and PASSWORD environment variables (optional, but recommended if exposed).
+    #   PUID/PGID are included for consistency with your setup, but may not be needed for this image.
+    #
+    # *****************************************************************************
+    esphome:
+        container_name: esphome
+        image: "ghcr.io/esphome/esphome"
+        environment:
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-1000}
+            - PGID=${PGID:-1000}
+            # - USERNAME=admin  # Uncomment and set for basic auth on the dashboard
+            # - PASSWORD=yoursecurepassword  # Uncomment and set for basic auth
+        volumes:
+          - esphome-config:/config
+          - /etc/localtime:/etc/localtime:ro
+        restart: unless-stopped
+        privileged: true
+        network_mode: host
+
+volumes:
+    homeassistant-config:
+    code-server-config:
+    esphome-config:
