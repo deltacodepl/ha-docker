@@ -34,8 +34,7 @@ services:
 
         # Directly map any devices this container needs access to
         devices:
-          - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_88cb222d8b29ec11900e6d7840c9ce8d-if00-port0
-
+         - /dev/ttyUSB0:/dev/ttyUSB0
         volumes:
           - config:/config
           - /etc/localtime:/etc/localtime:ro
