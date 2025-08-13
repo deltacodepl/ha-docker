@@ -18,13 +18,32 @@ services:
             - TZ=${TZ_ID}
             - PUID=${PUID:-1000}
             - PGID=${GUID:-1000}
+
+        # Not running in privileged mode
+        #   - Bluetooth, USB and any other devices must be mapped as volumes or
+        #     devices for the host hardware (google is your friend)
+        #   - Running as privileged removes this headache at the cost of security
+        # privileged: true  
+
+        # If not using privileged mode, Use an unconfined AppArmor profile
+        #   - AppArmor restricts what processes—including containers—can do on 
+        #     your system. By default, Docker containers run with a somewhat 
+        #     restrictive AppArmor profile (docker-default)
+        security_opt:
+          - apparmor:unconfined
+
+        # Directly map any devices this container needs access to
+        devices:
+          - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_88cb222d8b29ec11900e6d7840c9ce8d-if00-port0
+
         volumes:
           - config:/config
           - /etc/localtime:/etc/localtime:ro
+          # Needed for bluetooth functionality vis BlueZ on this hardware
+          - /run/dbus:/run/dbus:ro
         ports:
           - 8123:8123
         restart: unless-stopped
-        # privileged: true
         network_mode: host
 
     # *****************************************************************************
