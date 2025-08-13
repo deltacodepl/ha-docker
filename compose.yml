@@ -13,7 +13,7 @@ services:
     # *****************************************************************************
     homeassistant:
         container_name: homeassistant
-        image: "ghcr.io/home-assistant/home-assistant:stable"
+        image: lscr.io/linuxserver/homeassistant:latest
         environment:
             - TZ=${TZ_ID}
             - PUID=${PUID:-1000}
@@ -21,9 +21,33 @@ services:
         volumes:
           - config:/config
           - /etc/localtime:/etc/localtime:ro
-          - /run/dbus:/run/dbus:ro
+        ports:
+          - 8123:8123
         restart: unless-stopped
-        privileged: true
+        # privileged: true
+        network_mode: host
+
+    # *****************************************************************************
+    # esphome
+    #   ESPHome is a tool for creating custom firmware for ESP8266/ESP32 devices.
+    #   It integrates with Home Assistant for device control. The dashboard runs on port 6052.
+    #   Access it at http://<your-server-ip>:6052. 
+    #
+    # *****************************************************************************
+    esphome:
+        container_name: esphome
+        image: "ghcr.io/esphome/esphome"
+        environment:
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-1000}
+            - PGID=${PGID:-1000}
+            - USERNAME=${ESPHOME_USERNAME}
+            - PASSWORD=${ESPHOME_PASSWORD}
+        volumes:
+          - esphome-config:/config
+          - /etc/localtime:/etc/localtime:ro
+        restart: unless-stopped
+        # privileged: true
         network_mode: host
 
 
@@ -41,7 +65,7 @@ services:
         environment:
             - TZ=${TZ_ID}
             - PUID=${PUID:-1000}
-            - PGID=${PGID:-1000}
+            - PGID=${GUID:-1000}
             - PASSWORD=${VSC_PASSWORD}
             - DEFAULT_WORKSPACE=/config/workspace
         volumes:
@@ -50,32 +74,9 @@ services:
         ports:
           - 8443:8443
         restart: unless-stopped
+        network_mode: host
         
-
-    # # *****************************************************************************
-    # # esphome
-    # #   ESPHome is a tool for creating custom firmware for ESP8266/ESP32 devices.
-    # #   It integrates with Home Assistant for device control. The dashboard runs on port 6052.
-    # #   Access it at http://<your-server-ip>:6052. 
-    # #
-    # # *****************************************************************************
-    # esphome:
-    #     container_name: esphome
-    #     image: "ghcr.io/esphome/esphome"
-    #     environment:
-    #         - TZ=${TZ_ID}
-    #         - PUID=${PUID:-1000}
-    #         - PGID=${PGID:-1000}
-    #         # - USERNAME=admin  # Uncomment and set for basic auth on the dashboard
-    #         # - PASSWORD=yoursecurepassword  # Uncomment and set for basic auth
-    #     volumes:
-    #       - esphome-config:/config
-    #       - /etc/localtime:/etc/localtime:ro
-    #     restart: unless-stopped
-    #     privileged: true
-    #     network_mode: host
-
 volumes:
     config:
     vscode-config:
-    # esphome-config:
+    esphome-config:
