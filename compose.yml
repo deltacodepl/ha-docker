@@ -34,7 +34,7 @@ services:
 
         # Directly map any devices this container needs access to
         devices:
-         - /dev/ttyUSB0:/dev/ttyUSB0
+          - /dev/ttyUSB0:/dev/ttyUSB0
         volumes:
           - config:/config
           - /etc/localtime:/etc/localtime:ro
