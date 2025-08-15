@@ -59,8 +59,8 @@ services:
             - TZ=${TZ_ID}
             - PUID=${PUID:-1000}
             - PGID=${PGID:-1000}
-            - USERNAME=${ESPHOME_USERNAME}
-            - PASSWORD=${ESPHOME_PASSWORD}
+            - USERNAME=${ESPHOME_USERNAME:-esphome}
+            - PASSWORD=${ESPHOME_PASSWORD:-password}
         volumes:
           - esphome-config:/config
           - /etc/localtime:/etc/localtime:ro
@@ -86,7 +86,7 @@ services:
             - TZ=${TZ_ID}
             - PUID=${PUID:-1000}
             - PGID=${GUID:-1000}
-            - PASSWORD=${VSC_PASSWORD}
+            - PASSWORD=${VSC_PASSWORD:-password}
             - DEFAULT_WORKSPACE=/config/workspace
         volumes:
           - config:/config/workspace
