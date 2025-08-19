@@ -78,6 +78,18 @@ services:
     #   allowing you to edit HA configurations directly via the code-server interface.
     #   Access it at http://localhost:8080 (or your host IP:8080).
     #
+    # 1. Install the Home Assistant Config Helper Extension (keesschollaart.vscode-home-assistant)
+    # 2. Then, make sure the following settings are presents in the: workspace/.vscode/settings.json file.
+    #
+    #   {
+    #       "files.associations": {
+    #           "*.yaml": "home-assistant"
+    #       },
+    #       "vscode-home-assistant.hostUrl": "http://homeassistant.local:8123",
+    #       "vscode-home-assistant.longLivedAccessToken": "***long_lived_token_from_HA***",
+    #       "vscode-home-assistant.ignoreCertificates": true
+    #   }    
+    #
     # *****************************************************************************
     vscode:
         container_name: vscode
