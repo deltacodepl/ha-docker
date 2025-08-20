@@ -140,8 +140,39 @@ services:
         privileged: true
         network_mode: host
 
+    # *****************************************************************************
+    # mosquitto
+    #   Eclipse Mosquitto is an open-source MQTT broker that enables lightweight,
+    #   publish-subscribe messaging for IoT devices. It integrates with Home Assistant
+    #   and ESPHome for device communication. The broker listens on port 1883 for
+    #   unencrypted connections (and optionally 8883 for TLS). Configuration and data
+    #   are stored in a dedicated volume. Update the configuration file (mosquitto.conf)
+    #   to enable authentication or TLS if needed.
+    # *****************************************************************************
+    mosquitto:
+        container_name: mosquitto
+        image: eclipse-mosquitto:latest
+        environment:
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-1000}
+            - PGID=${PGID:-1000}
+        volumes:
+            - mosquitto-config:/mosquitto/config
+            - mosquitto-data:/mosquitto/data
+            - mosquitto-log:/mosquitto/log
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 1883:1883
+            # - 8883:8883  # Uncomment for TLS support
+        restart: unless-stopped
+        network_mode: host
+
+
 volumes:
     config:
     vscode-config:
     esphome-config:
     nut-config:
+    mosquitto-config:
+    mosquitto-data:
+    mosquitto-log:
