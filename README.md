@@ -10,6 +10,8 @@ Here is what this project has to offer:
 1. [Home Assistant](https://www.home-assistant.io/)
 1. [VSCode Editor](https://docs.linuxserver.io/images/docker-code-server/)
 1. [ESPHome](https://esphome.io/)
+1. [NUT](https://hub.docker.com/r/instantlinux/nut-upsd)
+1. [MQTT](https://hub.docker.com/_/eclipse-mosquitto/)
 
 
 ## Getting Started
@@ -64,21 +66,16 @@ persistence true
 persistence_location /mosquitto/data/
 log_dest file /mosquitto/log/mosquitto.log
 listener 1883
-allow_anonymous true  # Set to false and configure users for authentication
-```
-
-For authentication, add a password file
-
-```bash
-docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/passwd username
-```
-
-Update `mosquitto.conf` to include
-
-```conf
 allow_anonymous false
 password_file /mosquitto/config/passwd
 ```
+
+For authentication, add a password file. Run the following command on the docker host, replacing `username` with the username to use for mosquitto user authentication.
+
+```bash
+docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/passwd [username]
+```
+
 
 
 
