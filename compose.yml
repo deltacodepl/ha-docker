@@ -88,7 +88,7 @@ services:
     #       "vscode-home-assistant.hostUrl": "http://homeassistant.local:8123",
     #       "vscode-home-assistant.longLivedAccessToken": "***long_lived_token_from_HA***",
     #       "vscode-home-assistant.ignoreCertificates": true
-    #   }    
+    #   } 
     #
     # *****************************************************************************
     vscode:
@@ -139,7 +139,7 @@ services:
         restart: unless-stopped
         privileged: true
         network_mode: host
-
+        
     # *****************************************************************************
     # mosquitto
     #   Eclipse Mosquitto is an open-source MQTT broker that enables lightweight,
@@ -149,8 +149,8 @@ services:
     #   are stored in a dedicated volume. Update the configuration file (mosquitto.conf)
     #   to enable authentication or TLS if needed.
     # *****************************************************************************
-    mosquitto:
-        container_name: mosquitto
+    mqtt:
+        container_name: mqtt
         image: eclipse-mosquitto:latest
         environment:
             - TZ=${TZ_ID}
@@ -163,7 +163,6 @@ services:
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 1883:1883
-            # - 8883:8883  # Uncomment for TLS support
         restart: unless-stopped
         network_mode: host
 
