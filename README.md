@@ -18,7 +18,7 @@ Here is what this project has to offer:
 Deploy the stack into your Docker environment.
 
 > [!Note]
-> This stack is using [LinuxServer.io](https://docs.linuxserver.io/images/docker-homeassistant/)'s Home Assistant image.  This image allows Home Assistant to run as a user other than `root`. 
+> I run my docker containers as `root`, working to do so otherwise was just too many headaches.
 
 ## Home Assistant
 Visit the Home Assistant (HA) instance at http://hostname:8123, and the Home Assistant Welcome screen should appear.
@@ -32,21 +32,25 @@ Visit the VS Code Server at http://hostname:8443.  This will prompt for the pass
 In the extensions settings, install:
 - [Home Assistant Config Helper](keesschollaart.vscode-home-assistant) (by keesschollaart) 
 
-Open the command pallet `[ctrl + shift + p]` and choose `Home Assistant: Manage Home Assistant Authentication`, and choose `Set Token`
-- Enter the URL to the Home Assistant instance (http://hostname:8123)
-- Enter the long-lived token
 
-Test the connection using the `Home Assistant: Test Home Assistant Connection` command pallet option, and hopefully a `Successfully Connected` message is displayed in the bottom right corner.
+Then, make sure the following settings are present in the: `[DEFAULT_WORKSPACE]/.vscode/settings.json` file within the config volume:
 
-Restart the stack, and reload the VSCode editor.
-
-Open the command pallet, and choose `Home Assistant: Check Configuration (remote!)`
+```yaml
+{
+    "files.associations": {
+        "*.yaml": "home-assistant"
+    },
+    "vscode-home-assistant.hostUrl": "http://localhost:8123",
+    "vscode-home-assistant.longLivedAccessToken": "***long_lived_token_from_HA***",
+    "vscode-home-assistant.ignoreCertificates": true
+} 
+```
 
 ### Test File Edits ###
 Next, make a small edit to the configuration.yaml file (like adding a comment), and attempt to save the change.  
   
 
-## Additional Extensions ##
+## Additional Recommended Extensions ##
 
 1. YAML (by Red Hat)
 1. Log File Highlighter (by emilast)
@@ -55,6 +59,38 @@ Next, make a small edit to the configuration.yaml file (like adding a comment), 
 1. indent-rainbow (by oderwat)
 1. vscode-icons (by vscode-icons-team)
 
+##  Network UPS Tools (nut) ##
+
+The UPS devices to be monitored are configured in the `/etc/nut` directory of the `nut` container. 
+
+The `ups.conf` file configure the UPS devices to be connected to, below is a sample of two UPS devices:
+
+```conf
+[ups-1]
+    driver = usbhid-ups
+    port = /dev/usb/hiddev0
+    desc = "APC Back-UPS (1)"
+    serial = 4B1236P17533
+
+[ups-2]
+    driver = usbhid-ups
+    port = /dev/usb/hiddev1
+    desc = "APC Back-UPS (2)"
+    serial = 4B1227P35221
+```
+
+> [!Note]
+> Some work will be need to be done to research the port path, and the serial number of each device - (Google is your friend)
+
+Next, the `upsmon.conf` files needs to be updated to tell `nut` what UPS devices to monitor, the password and the user to use.  `password` in this context is just telling upsmon to use a password for API authentication.  This was set up in compose with the `API_PASSWORD` property.
+
+```conf
+MONITOR ups-1@localhost 1 upsmon password primary
+MONITOR ups-2@localhost 1 upsmon password primary
+RUN_AS_USER nut
+```
+
+Once these changes are made, restart the `nut` container, and try to initialze the `nut` integration.
 
 ## Mosquitto MQTT
 
