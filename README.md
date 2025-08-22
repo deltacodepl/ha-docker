@@ -112,6 +112,12 @@ For authentication, add a password file. Run the following command on the docker
 docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/passwd [username]
 ```
 
+## VictoriaMmetrics
+
+Integrate VictoriaMetrics into your existing Home Assistant Docker Compose setup for long-term data storage and visualization.
+
+> [!Note]
+> This method uses Home Assistant's InfluxDB integration with VictoriaMetrics' InfluxDB compatibility.
 
 
 

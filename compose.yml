@@ -166,6 +166,29 @@ services:
         restart: unless-stopped
         network_mode: host
 
+    # *****************************************************************************
+    # victoriametrics
+    #   VictoriaMetrics is a high-performance time series database that's compatible
+    #   with InfluxDB and Prometheus. It provides long-term storage for Home Assistant
+    #   sensor data with excellent compression and query performance. Access the web
+    #   UI at http://<your-server-ip>:8428/vmui for data exploration.
+    # *****************************************************************************
+    victoriametrics:
+        container_name: victoriametrics
+        image: victoriametrics/victoria-metrics:v1.124.0  # Use specific version, not 'latest'
+        environment:
+            - TZ=${TZ_ID}
+        volumes:
+            - victoriametrics-data:/victoria-metrics-data
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - 8428:8428
+        command:
+            - "--retentionPeriod=100y"  # Store data for 100 years (essentially forever)
+            - "--selfScrapeInterval=60s"  # Scrape own metrics every 60 seconds
+        restart: unless-stopped
+        network_mode: host
+
 
 volumes:
     config:
@@ -176,3 +199,57 @@ volumes:
     mosquitto-config:
     mosquitto-data:
     mosquitto-log:
+    victoriametrics-data:
+
+
+
+    # # *****************************************************************************
+    # # influxdb
+    # #   InfluxDB is an open-source time-series database designed for high-performance 
+    # #   storage and querying of timestamped data, such as sensor readings and metrics 
+    # #   from Home Assistant. It integrates with Home Assistant to store historical data 
+    # #   for long-term analysis and visualization with tools like Grafana. The service 
+    # #   listens on port 8086 for API connections. Configuration and data are stored in 
+    # #   dedicated volumes. Configure Home Assistant’s InfluxDB integration with the 
+    # #   appropriate API version and credentials for secure data transfer.
+    # # *****************************************************************************
+    # influxdb:
+    #     container_name: influxdb
+    #     image: influxdb:3
+    #     environment:
+    #         - name=value
+    #         - DOCKER_INFLUXDB_INIT_MODE=setup
+    #         - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_HA_USERNAME:-influxdb}
+    #         - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_HA_PASSWORD:-password}
+    #         - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_HA_ORG:-tyzen9}
+    #         - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_HA_BUCKET:-ha}
+    #     volumes:
+    #         - influxdb-data:/var/lib/influxdb2
+    #         - influxdb-config:/etc/influxdb2
+    #         - /etc/localtime:/etc/localtime:ro
+    #     ports:
+    #         - 8086:8086
+    #     restart: unless-stopped
+    #     network_mode: host
+
+    # # *****************************************************************************
+    # # grafana
+    # #   Grafana is an open-source platform for monitoring and visualizing time-series 
+    # #   data. It integrates with InfluxDB to create customizable dashboards for Home 
+    # #   Assistant metrics, such as sensor trends or UPS status. The service runs on port 
+    # #   3000 and provides a web-based interface for creating and viewing dashboards. 
+    # #   Configuration and dashboard data are stored in a dedicated volume. Update the 
+    # #   Grafana data source settings to connect to InfluxDB using the appropriate API 
+    # #   token and bucket.
+    # # *****************************************************************************
+    # grafana:
+    #     container_name: grafana
+    #     image: grafana/grafana:latest
+    #     volumes: 
+    #         - grafana:/var/lib/grafana
+    #     depends_on:
+    #         - influxdb
+    #     ports:
+    #         - 3000:3000
+    #     restart: unless-stopped
+    #     network_mode: host
