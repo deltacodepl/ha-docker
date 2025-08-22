@@ -107,38 +107,6 @@ services:
           - 8443:8443
         restart: unless-stopped
         network_mode: host
-
-    # *****************************************************************************
-    # nut
-    #   Network UPS Tools (NUT) is an open-source system for monitoring and managing
-    #   UPS devices. This service runs a NUT server to communicate with multiple UPS
-    #   devices connected via USB or serial interfaces. It exposes port 3493 for
-    #   NUT clients (e.g., Home Assistant) to query UPS status. Configuration files
-    #   are stored in a dedicated volume, and device mappings are provided for
-    #   multiple UPS units. Update the device paths and NUT configuration files
-    #   (ups.conf) to match your specific UPS models and connection details.
-    #
-    # *****************************************************************************
-    nut:
-        container_name: nut
-        image: instantlinux/nut-upsd:latest
-        environment:
-            - TZ=${TZ_ID}
-            - PUID=${PUID:-0}
-            - PGID=${PGID:-0}
-            - API_PASSWORD=${NUT_API_PASSWORD:-password}
-        devices:
-            - /dev/usb/hiddev0:/dev/usb/hiddev0
-            - /dev/usb/hiddev1:/dev/usb/hiddev1        
-            - /dev/usb/hiddev2:/dev/usb/hiddev2        
-        volumes:
-          - nut-config:/etc/nut
-          - /etc/localtime:/etc/localtime:ro
-        ports:
-          - 3493:3493  # NUT server port for client connections
-        restart: unless-stopped
-        privileged: true
-        network_mode: host
         
     # *****************************************************************************
     # mosquitto
@@ -211,15 +179,47 @@ services:
         restart: unless-stopped
         network_mode: host
 
+    # *****************************************************************************
+    # nut
+    #   Network UPS Tools (NUT) is an open-source system for monitoring and managing
+    #   UPS devices. This service runs a NUT server to communicate with multiple UPS
+    #   devices connected via USB or serial interfaces. It exposes port 3493 for
+    #   NUT clients (e.g., Home Assistant) to query UPS status. Configuration files
+    #   are stored in a dedicated volume, and device mappings are provided for
+    #   multiple UPS units. Update the device paths and NUT configuration files
+    #   (ups.conf) to match your specific UPS models and connection details.
+    #
+    # *****************************************************************************
+    nut:
+        container_name: nut
+        image: instantlinux/nut-upsd:latest
+        environment:
+            - TZ=${TZ_ID}
+            - PUID=${PUID:-0}
+            - PGID=${PGID:-0}
+            - API_PASSWORD=${NUT_API_PASSWORD:-password}
+        devices:
+            - /dev/usb/hiddev0:/dev/usb/hiddev0
+            - /dev/usb/hiddev1:/dev/usb/hiddev1        
+            - /dev/usb/hiddev2:/dev/usb/hiddev2        
+        volumes:
+          - nut-config:/etc/nut
+          - /etc/localtime:/etc/localtime:ro
+        ports:
+          - 3493:3493  # NUT server port for client connections
+        restart: unless-stopped
+        privileged: true
+        network_mode: host
+
 volumes:
     config:
     vscode-config:
     esphome-config:
     esphome-cache:
-    nut-config:
     mosquitto-config:
     mosquitto-data:
     mosquitto-log:
     victoriametrics-data:
     grafana:
+    nut-config:
 
