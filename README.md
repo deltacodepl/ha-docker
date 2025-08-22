@@ -1,6 +1,21 @@
+<p align="center">
+<img src="images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/vscode_logo.png" height="35" style="padding-left: 25px">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/grafana-logo.png" height="35" style="padding-left: 25px">  
+</p> 
 
-# <img src="https://github.com/tyzen9/tyzen9/blob/main/images/logos/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
-These are my notes on how to install and configure Home Assistant using docker.
+# <img src="images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
+This is an all in one docker stack for running home assistant and some common "Add-Ons" that are generally considered the basic needs.  This will allow for the running of Home Assistant in a docker instance.
+
+## Prerequisites
+Install [Docker Engine](https://docs.docker.com/get-docker/) or [Docker Desktop](https://docs.docker.com/desktop/) if you require the Docker user interface.  In production it's generally best to use [Docker Engine](https://docs.docker.com/get-docker/) on a Linux host operating system, and a lightweight service delivery platform designed for managing containerized applications such as [Portainer](https://www.portainer.io/).
+
+This documentation assumes you have a working knowledge of [Docker](https://www.docker.com/), and [Home Assistant](https://www.home-assistant.io/) administration.
+
+## Container Configuration
+This `docker-compose` implementation is configured using the `environment` section(s) of the `docker-compose.yaml` file.  The values between the `${}` characters are substituted from the `.env` file.  If you do not configure these values, default values preceeded by the hyphen will be used.
+
+> [!Note]
+> These containers are configured to run as `root`. While is it not impossible to configure them to run otherwise, working to do so otherwise was just too many headaches. Afterall HASOS runs as `root` out of the box 🙌.
+
 
 # What's Inside?
 The docker-homeassistant stack contains everything you need for a stable Home Assistant experience running in Docker. To get started, all you is a Linux host running Docker.  This documentation generally assumes the use of [Portainer](https://www.portainer.io/) to manage the Docker instance.
@@ -10,7 +25,7 @@ Here is what this project has to offer:
 1. [Home Assistant](https://www.home-assistant.io/)
 1. [VSCode Editor](https://docs.linuxserver.io/images/docker-code-server/)
 1. [ESPHome](https://esphome.io/)
-1. [NUT](https://hub.docker.com/r/instantlinux/nut-upsd)
+1. [Network UPS Tools (nut)](https://hub.docker.com/r/instantlinux/nut-upsd)
 1. [MQTT](https://hub.docker.com/_/eclipse-mosquitto/)
 1. [VictoriaMertics](https://victoriametrics.com/)
 1. [Grafana](https://grafana.com/)
@@ -19,8 +34,7 @@ Here is what this project has to offer:
 ## Getting Started
 Deploy the stack into your Docker environment.
 
-> [!Note]
-> I run my docker containers as `root`, working to do so otherwise was just too many headaches.
+
 
 ## Home Assistant
 Visit the Home Assistant (HA) instance at http://hostname:8123, and the Home Assistant Welcome screen should appear.
