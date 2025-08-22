@@ -1,11 +1,11 @@
+# <img src="images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
+This is an all-in-one Docker stack for running home assistant and some common "Add-Ons".  This will allow for the running of Home Assistant in a Docker instance, providing the support for ESPHome, MQTT and editing configurations with VSCode in a browser.  This will also offer the means to support long-term storage of sensor values over time, and build beautiful visual reports with Grafana.
+
 <p align="center">
 <img src="images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/vscode_logo.png" height="35" style="padding-left: 25px">
 <br>
 <img src="images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/grafana-logo.png" height="35" style="padding-left: 25px">  
 </p> 
-
-# <img src="images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
-This is an all-in-one Docker stack for running home assistant and some common "Add-Ons".  This will allow for the running of Home Assistant in a Docker instance, providing the support for ESPHome, MQTT and editing configurations with VSCode in a browser.  This will also offer the means to support long-term storage of sensor values over time, and build beautiful visual reports with Grafana.
 
 ## Prerequisites
 In production it's generally best to use [Docker Engine](https://docs.docker.com/get-docker/) on a Linux host operating system, and a lightweight service delivery platform designed for managing containerized applications such as [Portainer](https://www.portainer.io/).
