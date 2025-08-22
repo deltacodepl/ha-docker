@@ -1,5 +1,7 @@
 <p align="center">
-<img src="images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/vscode_logo.png" height="35" style="padding-left: 25px">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/grafana-logo.png" height="35" style="padding-left: 25px">  
+<img src="images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/vscode_logo.png" height="35" style="padding-left: 25px">
+<br>
+<img src="images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/grafana-logo.png" height="35" style="padding-left: 25px">  
 </p> 
 
 # <img src="images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
