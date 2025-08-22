@@ -16,8 +16,8 @@ services:
         image: lscr.io/linuxserver/homeassistant:latest
         environment:
             - TZ=${TZ_ID}
-            - PUID=${PUID:0}
-            - PGID=${GUID:0}
+            - PUID=${PUID:-0}
+            - PGID=${GUID:-0}
 
         # Not running in privileged mode
         #   - Bluetooth, USB and any other devices must be mapped as volumes or
@@ -57,8 +57,8 @@ services:
         image: "ghcr.io/esphome/esphome"
         environment:
             - TZ=${TZ_ID}
-            - PUID=${PUID:0}
-            - PGID=${PGID:0}
+            - PUID=${PUID:-0}
+            - PGID=${PGID:-0}
             - USERNAME=${ESPHOME_USERNAME:-esphome}
             - PASSWORD=${ESPHOME_PASSWORD:-password}
         volumes:
@@ -95,8 +95,8 @@ services:
         image: lscr.io/linuxserver/code-server:latest
         environment:
             - TZ=${TZ_ID}
-            - PUID=${PUID:0}
-            - PGID=${GUID:0}
+            - PUID=${PUID:-0}
+            - PGID=${GUID:-0}
             - PASSWORD=${VSC_PASSWORD:-password}
             - DEFAULT_WORKSPACE=/config/workspace
         volumes:
@@ -124,8 +124,8 @@ services:
         image: instantlinux/nut-upsd:latest
         environment:
             - TZ=${TZ_ID}
-            - PUID=${PUID:0}
-            - PGID=${PGID:0}
+            - PUID=${PUID:-0}
+            - PGID=${PGID:-0}
             - API_PASSWORD=${NUT_API_PASSWORD:-password}
         devices:
             - /dev/usb/hiddev0:/dev/usb/hiddev0
@@ -154,8 +154,8 @@ services:
         image: eclipse-mosquitto:latest
         environment:
             - TZ=${TZ_ID}
-            - PUID=${PUID:0}
-            - PGID=${PGID:0}
+            - PUID=${PUID:-0}
+            - PGID=${PGID:-0}
         volumes:
             - mosquitto-config:/mosquitto/config
             - mosquitto-data:/mosquitto/data
@@ -184,11 +184,32 @@ services:
         ports:
             - 8428:8428
         command:
-            - "--retentionPeriod=100y"  # Store data for 100 years (essentially forever)
+            - "--retentionPeriod=100y"    # Store data for 100 years (essentially forever)
             - "--selfScrapeInterval=60s"  # Scrape own metrics every 60 seconds
         restart: unless-stopped
         network_mode: host
 
+    # *****************************************************************************
+    # grafana
+    #   Grafana is an open-source platform for monitoring and visualizing time-series 
+    #   data. It integrates with InfluxDB to create customizable dashboards for Home 
+    #   Assistant metrics, such as sensor trends or UPS status. The service runs on port 
+    #   3000 and provides a web-based interface for creating and viewing dashboards. 
+    #   Configuration and dashboard data are stored in a dedicated volume. Update the 
+    #   Grafana data source settings to connect to InfluxDB using the appropriate API 
+    #   token and bucket.
+    # *****************************************************************************
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:latest
+        volumes: 
+            - grafana:/var/lib/grafana
+        depends_on:
+            - victoriametrics
+        ports:
+            - 3000:3000
+        restart: unless-stopped
+        network_mode: host
 
 volumes:
     config:
@@ -200,56 +221,5 @@ volumes:
     mosquitto-data:
     mosquitto-log:
     victoriametrics-data:
+    grafana:
 
-
-
-    # # *****************************************************************************
-    # # influxdb
-    # #   InfluxDB is an open-source time-series database designed for high-performance 
-    # #   storage and querying of timestamped data, such as sensor readings and metrics 
-    # #   from Home Assistant. It integrates with Home Assistant to store historical data 
-    # #   for long-term analysis and visualization with tools like Grafana. The service 
-    # #   listens on port 8086 for API connections. Configuration and data are stored in 
-    # #   dedicated volumes. Configure Home Assistant’s InfluxDB integration with the 
-    # #   appropriate API version and credentials for secure data transfer.
-    # # *****************************************************************************
-    # influxdb:
-    #     container_name: influxdb
-    #     image: influxdb:3
-    #     environment:
-    #         - name=value
-    #         - DOCKER_INFLUXDB_INIT_MODE=setup
-    #         - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_HA_USERNAME:-influxdb}
-    #         - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_HA_PASSWORD:-password}
-    #         - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_HA_ORG:-tyzen9}
-    #         - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_HA_BUCKET:-ha}
-    #     volumes:
-    #         - influxdb-data:/var/lib/influxdb2
-    #         - influxdb-config:/etc/influxdb2
-    #         - /etc/localtime:/etc/localtime:ro
-    #     ports:
-    #         - 8086:8086
-    #     restart: unless-stopped
-    #     network_mode: host
-
-    # # *****************************************************************************
-    # # grafana
-    # #   Grafana is an open-source platform for monitoring and visualizing time-series 
-    # #   data. It integrates with InfluxDB to create customizable dashboards for Home 
-    # #   Assistant metrics, such as sensor trends or UPS status. The service runs on port 
-    # #   3000 and provides a web-based interface for creating and viewing dashboards. 
-    # #   Configuration and dashboard data are stored in a dedicated volume. Update the 
-    # #   Grafana data source settings to connect to InfluxDB using the appropriate API 
-    # #   token and bucket.
-    # # *****************************************************************************
-    # grafana:
-    #     container_name: grafana
-    #     image: grafana/grafana:latest
-    #     volumes: 
-    #         - grafana:/var/lib/grafana
-    #     depends_on:
-    #         - influxdb
-    #     ports:
-    #         - 3000:3000
-    #     restart: unless-stopped
-    #     network_mode: host
