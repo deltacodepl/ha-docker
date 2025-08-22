@@ -12,6 +12,8 @@ Here is what this project has to offer:
 1. [ESPHome](https://esphome.io/)
 1. [NUT](https://hub.docker.com/r/instantlinux/nut-upsd)
 1. [MQTT](https://hub.docker.com/_/eclipse-mosquitto/)
+1. [VictoriaMertics](https://victoriametrics.com/)
+1. [Grafana](https://grafana.com/)
 
 
 ## Getting Started
