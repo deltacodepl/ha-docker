@@ -75,7 +75,7 @@ These are common VSCode extensions that are used when editing Home Assistant and
 1. YAML (by Red Hat)
 1. Log File Highlighter (by emilast)
 1. ESPHome (by ESPHome)
-1. Material Design Icons Intellisense Preview (by lukas-tr)
+1. Material Design Icons Intellisense (by Lukas Troyer)
 1. indent-rainbow (by oderwat)
 1. vscode-icons (by vscode-icons-team)
 
