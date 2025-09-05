@@ -72,12 +72,33 @@ Then, make sure the following settings are present in the: `[DEFAULT_WORKSPACE]/
 ## Additional Recommended Extensions ##
 These are common VSCode extensions that are used when editing Home Assistant and ESPHome YAML files that are recommended for installation in the VSCode server instance:
 
-1. YAML (by Red Hat)
+1. YAML (redhat.vscode-yaml)
 1. Log File Highlighter (by emilast)
 1. ESPHome (by ESPHome)
 1. Material Design Icons Intellisense (by Lukas Troyer)
 1. indent-rainbow (by oderwat)
 1. vscode-icons (by vscode-icons-team)
+1. Jinja (samuelcolvin.jinjahtml)
+1. Prettier (esbenp.prettier-vscode)
+
+## 📢 Connect a local VSCode instance to Access Home Assistant
+This approach uses VSCode's Remote SSH extension to connect to your Docker host, then uses Dev Containers to access the containers directly.  This is a convenient way to use VSCode natively rather than using the VSCode editor in this stack
+
+In the local VSCode instance install the extensions listed above, in addition to the following:
+
+1. Remote-SSH extension (ms-vscode-remote.remote-ssh)
+1. Dev Containers extension (ms-vscode-remote.remote-containers)
+1. Docker extension (ms-azuretools.vscode-docker)
+
+To connect to the Home Assistant (or ESPHome container) follow these steps:
+
+1. Open VSCode Command Palette (F1)
+1. Run "Remote-SSH: Connect to Host"
+1. Add your Docker host connection details 
+1. Once connected via SSH, use the Docker extension sidebar to find the homeassistant (or esphome) containers
+1. Right-click on either container and select "Attach Visual Studio Code"
+1. Select the appropriate container, and enter password if needed
+1. Navigate the the appropriate folder and click OK
 
 
 ## Mosquitto MQTT
