@@ -81,7 +81,7 @@ These are common VSCode extensions that are used when editing Home Assistant and
 1. Jinja (samuelcolvin.jinjahtml)
 1. Prettier (esbenp.prettier-vscode)
 
-## 📢 Connect a local VSCode instance to Access Home Assistant
+## 📢 Connect a local VSCode instance to the Home Assistant config files
 This approach uses VSCode's Remote SSH extension to connect to your Docker host, then uses Dev Containers to access the containers directly.  This is a convenient way to use VSCode natively rather than using the VSCode editor in this stack
 
 In the local VSCode instance install the extensions listed above, in addition to the following:
