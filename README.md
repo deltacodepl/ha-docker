@@ -1,19 +1,23 @@
-# <img src="images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
+# <img src="docs/images/t9_logo.png" height="25"> Tyzen9 - docker-homeassistant
 This is an all-in-one Docker stack for running home assistant and some common "Add-Ons".  This will allow for the running of Home Assistant in a Docker instance, providing the support for ESPHome, MQTT and editing configurations with VSCode in a browser.  This will also offer the means to support long-term storage of sensor values over time, and build beautiful visual reports with Grafana.
 
 <p align="center">
-<img src="images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/vscode_logo.png" height="35" style="padding-left: 25px">
+<img src="docs/images/home-assistant-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 
+<img src="docs/images/esphome_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="docs/images/vscode_logo.png" height="35" style="padding-left: 25px">
 <br>
-<img src="images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <img src="images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/grafana-logo.png" height="35" style="padding-left: 25px">  
+<img src="docs/images/mqtt-logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+<img src="docs/images/vm_logo.png" height="35">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="docs/images/grafana-logo.png" height="35" style="padding-left: 25px">  
 </p> 
 
 ## Prerequisites
 In production it's generally best to use [Docker Engine](https://docs.docker.com/get-docker/) on a Linux host operating system, and a lightweight service delivery platform designed for managing containerized applications such as [Portainer](https://www.portainer.io/).
 
-This documentation assumes you have a working knowledge of [Docker](https://www.docker.com/), and [Home Assistant](https://www.home-assistant.io/) administration. It is designed to get a Home Assistant environment up and running with the included Docker services.
+This documentation assumes you have a working knowledge of [Docker](https://www.docker.com/), and [Home Assistant](https://www.home-assistant.io/) administration. 
 
 ## Container Configuration
-This `docker-compose` implementation is configured using the `environment` section(s) of the `docker-compose.yaml` file.  The values between the `${}` characters are substituted from the `.env` file.  If these values are not configured, the default values preceded by the hyphen will be used.
+This compose implementation is configured using the `environment` section(s) of the `compose.yaml` file.  The values between the `${}` characters are substituted from the `.env` file.  If these values are not configured, the default values preceded by the hyphen will be used.
 
 > [!Note]
 > These containers are configured to run as `root`. While is it not impossible to configure them to run otherwise, working to do so otherwise was just too many headaches. After all, HASOS runs as `root` out of the box 🙌.
@@ -32,9 +36,9 @@ The docker-homeassistant stack contains everything you need for a stable Home As
 
 
 ## Getting Started
-Deploy the stack into your Docker environment. This can be done any number of ways, to get started quickly log onto your Docker host system, and clone this repository: `git clone https://github.com/tyzen9/docker-homeassistant.git`
+Deploy the stack into your Docker environment. This can be done by cloning this repository, by downloading the most recent release, or just by simply copying the content of the `compose.yml` file and `sample.env` above. 
 
-1. Set the configuration options as desired in the `docker-compose.yaml` and `.env` files.
+1. Set the configuration options as desired in the `compose.yaml` and `.env` files.
 1. Navigate to the project's root directory and run the following command:
 
 ```
