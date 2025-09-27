@@ -34,9 +34,9 @@ services:
 
         # Directly map any devices this container needs access to
         devices:
-          - /dev/ttyUSB0:/dev/ttyUSB0
+          #- /dev/ttyUSB0:/dev/ttyUSB0
         volumes:
-          - config:/config
+          - /mnt/usbdata/ha-data/config:/config
           - /etc/localtime:/etc/localtime:ro
           # Needed for bluetooth functionality vis BlueZ on this hardware
           - /run/dbus:/run/dbus:ro
@@ -100,7 +100,7 @@ services:
             - PASSWORD=${VSC_PASSWORD:-password}
             - DEFAULT_WORKSPACE=/config/workspace
         volumes:
-          - config:/config/workspace/homeassistant
+          - /mnt/usbdata/ha-data/config:/config/workspace/homeassistant
           - esphome-config:/config/workspace/esphome
           - vscode-config:/config
         ports:
@@ -125,9 +125,9 @@ services:
             - PUID=${PUID:-0}
             - PGID=${PGID:-0}
         volumes:
-            - mosquitto-config:/mosquitto/config
-            - mosquitto-data:/mosquitto/data
-            - mosquitto-log:/mosquitto/log
+            - /mnt/usbdata/ha-data/mosquitto-config:/mosquitto/config
+            - /mnt/usbdata/ha-data/mosquitto-data:/mosquitto/data
+            - /mnt/usbdata/ha-data/mosquitto-log:/mosquitto/log
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 1883:1883
@@ -190,26 +190,26 @@ services:
     #   (ups.conf) to match your specific UPS models and connection details.
     #
     # *****************************************************************************
-    nut:
-        container_name: nut
-        image: instantlinux/nut-upsd:latest
-        environment:
-            - TZ=${TZ_ID}
-            - PUID=${PUID:-0}
-            - PGID=${PGID:-0}
-            - API_PASSWORD=${NUT_API_PASSWORD:-password}
-        devices:
-            - /dev/usb/hiddev0:/dev/usb/hiddev0
-            - /dev/usb/hiddev1:/dev/usb/hiddev1        
-            - /dev/usb/hiddev2:/dev/usb/hiddev2        
-        volumes:
-          - nut-config:/etc/nut
-          - /etc/localtime:/etc/localtime:ro
-        ports:
-          - 3493:3493  # NUT server port for client connections
-        restart: unless-stopped
-        privileged: true
-        network_mode: host
+    # nut:
+    #     container_name: nut
+    #     image: instantlinux/nut-upsd:latest
+    #     environment:
+    #         - TZ=${TZ_ID}
+    #         - PUID=${PUID:-0}
+    #         - PGID=${PGID:-0}
+    #         - API_PASSWORD=${NUT_API_PASSWORD:-password}
+    #     devices:
+    #         - /dev/usb/hiddev0:/dev/usb/hiddev0
+    #         - /dev/usb/hiddev1:/dev/usb/hiddev1        
+    #         - /dev/usb/hiddev2:/dev/usb/hiddev2        
+    #     volumes:
+    #       - nut-config:/etc/nut
+    #       - /etc/localtime:/etc/localtime:ro
+    #     ports:
+    #       - 3493:3493  # NUT server port for client connections
+    #     restart: unless-stopped
+    #     privileged: true
+    #     network_mode: host
 
 volumes:
     config:
@@ -221,5 +221,5 @@ volumes:
     mosquitto-log:
     victoriametrics-data:
     grafana:
-    nut-config:
+    #nut-config:
 
