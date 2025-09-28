@@ -169,17 +169,17 @@ services:
     #   Grafana data source settings to connect to InfluxDB using the appropriate API 
     #   token and bucket.
     # *****************************************************************************
-    grafana:
-        container_name: grafana
-        image: grafana/grafana:latest
-        volumes: 
-            - grafana:/var/lib/grafana
-        depends_on:
-            - victoriametrics
-        ports:
-            - 3000:3000
-        restart: unless-stopped
-        network_mode: host
+    # grafana:
+    #     container_name: grafana
+    #     image: grafana/grafana:latest
+    #     volumes: 
+    #         - grafana:/var/lib/grafana
+    #     depends_on:
+    #         - victoriametrics
+    #     ports:
+    #         - 3000:3000
+    #     restart: unless-stopped
+    #     network_mode: host
 
     # *****************************************************************************
     # nut
