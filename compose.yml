@@ -13,7 +13,9 @@ services:
     # *****************************************************************************
     homeassistant:
         container_name: homeassistant
-        image: lscr.io/linuxserver/homeassistant:latest
+        #image: lscr.io/linuxserver/homeassistant:latest
+        image: ghcr.io/home-assistant/home-assistant:stable
+        platform: linux/arm64/v8
         environment:
             - TZ=${TZ_ID}
             - PUID=${PUID:-0}
@@ -33,13 +35,13 @@ services:
           - apparmor:unconfined
 
         # Directly map any devices this container needs access to
-        devices:
+        #devices:
           #- /dev/ttyUSB0:/dev/ttyUSB0
         volumes:
           - /mnt/usbdata/ha-data/config:/config
           - /etc/localtime:/etc/localtime:ro
           # Needed for bluetooth functionality vis BlueZ on this hardware
-          - /run/dbus:/run/dbus:ro
+          # - /run/dbus:/run/dbus:ro
         ports:
           - 8123:8123
         restart: unless-stopped
@@ -125,7 +127,7 @@ services:
             - PUID=${PUID:-0}
             - PGID=${PGID:-0}
         volumes:
-            - /mnt/usbdata/ha-data/mosquitto-config:/mosquitto/config
+            - /mnt/usbdata/ha-data/mosquitto-config:/mosquitto/config:ro
             - /mnt/usbdata/ha-data/mosquitto-data:/mosquitto/data
             - /mnt/usbdata/ha-data/mosquitto-log:/mosquitto/log
             - /etc/localtime:/etc/localtime:ro
