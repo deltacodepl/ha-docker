@@ -149,7 +149,7 @@ services:
         environment:
             - TZ=${TZ_ID}
         volumes:
-            - victoriametrics-data:/victoria-metrics-data
+            - /mnt/usbdata/victoriametrics-data:/victoria-metrics-data
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 8428:8428
